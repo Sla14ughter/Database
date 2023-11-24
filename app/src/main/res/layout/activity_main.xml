@@ -10,9 +10,9 @@
         android:id="@+id/tvOut"
         android:layout_width="347dp"
         android:layout_height="296dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.165"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editYear" />
 
@@ -97,6 +97,52 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonAdd" />
 
+    <Button
+        android:id="@+id/buttonDelOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="DEL ONE"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="UPDATE"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAdd"
+        app:layout_constraintStart_toEndOf="@+id/buttonDelOne" />
+
+    <EditText
+        android:id="@+id/editNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDelOne"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="SEARCH"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGet"
+        app:layout_constraintStart_toEndOf="@+id/buttonUpdate" />
+
+    <Button
+        android:id="@+id/button1000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="1000"
+        app:layout_constraintStart_toEndOf="@+id/buttonGet"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSearch" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

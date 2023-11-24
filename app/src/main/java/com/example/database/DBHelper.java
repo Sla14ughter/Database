@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 
 import androidx.annotation.Nullable;
 
@@ -38,6 +39,22 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void DeleteOne(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(MY_TABLE, COLUMN_NAME+" = ?", new String[] { name });
+        db.close();
+    }
+
+    public void UpdateOne(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_NAME, name);
+        cv.put(COLUMN_SURNAME, "Smith");
+        cv.put(COLUMN_YEAR, 1900);
+        db.update(MY_TABLE, cv, COLUMN_NAME+" = ?", new String[] { name });
+        db.close();
+    }
+
     public void AddOne(Data data){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -64,6 +81,49 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close();
         return list;
+    }
+
+    public LinkedList<Data> Search(String enquiry) {
+        LinkedList<Data> list = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(enquiry, null);
+        if (cursor.moveToFirst())
+            do{
+                int id_n = cursor.getColumnIndex(COLUMN_NAME);
+                int id_s = cursor.getColumnIndex(COLUMN_SURNAME);
+                int id_y = cursor.getColumnIndex(COLUMN_YEAR);
+
+                Data data = new Data(cursor.getString(id_n), cursor.getString(id_s), cursor.getInt(id_y));
+                list.add(data);
+            }while(cursor.moveToNext());
+
+        db.close();
+        return list;
+    }
+
+    public long Insert1000 () {
+        long t1 = System.currentTimeMillis();
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        String sqlInquery = "INSERT INTO " + MY_TABLE + " VALUES(?, ?, ?)";
+        SQLiteStatement statement = db.compileStatement(sqlInquery);
+        try {
+            for (int i = 0; i < 1000; i++) {
+                statement.clearBindings();
+                statement.bindString(1, "Vasiliy");
+                statement.bindString(2, "Pupkin");
+                statement.bindLong(3, 2008);
+                statement.execute();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.endTransaction();
+        }
+
+        db.close();
+        long t2 = System.currentTimeMillis();
+        return t2 - t1;
     }
 }
 

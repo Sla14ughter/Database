@@ -15,8 +15,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     DBHelper dbHelper;
     TextView tvOut;
-    EditText ename, esname, eyear;
-    Button  btnDel, btnAdd, btnGet;
+    EditText ename, esname, eyear, eNew;
+    Button  
+            btnDel, 
+            btnAdd, 
+            btnGet, 
+            btnDelOne, 
+            btnUpdate,
+            btnSearch, 
+            btnInsert1000;
 
     @SuppressLint("CutPasteId")
     @Override
@@ -31,20 +38,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ename = findViewById(R.id.editName);
         esname = findViewById(R.id.editSurname);
         eyear = findViewById(R.id.editYear);
+        eNew = findViewById(R.id.editNew);
 
         btnDel = findViewById(R.id.buttonDel);
         btnAdd = findViewById(R.id.buttonAdd);
         btnGet = findViewById(R.id.buttonGet);
+        btnDelOne = findViewById(R.id.buttonDelOne);
+        btnUpdate = findViewById(R.id.buttonUpdate);
+        btnSearch = findViewById(R.id.buttonSearch);
+        btnInsert1000 = findViewById(R.id.button1000);
+        
+        
 
         btnDel.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
         btnGet.setOnClickListener(this);
-
+        btnDelOne.setOnClickListener(this);
+        btnUpdate.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
+        btnInsert1000.setOnClickListener(this);
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
+        LinkedList<Data> list;
+        String text = "";
         if(v.getId() == R.id.buttonDel){
             dbHelper.DeleteAll();
         } else if (v.getId() == R.id.buttonAdd) {
@@ -54,12 +73,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Data data = new Data(name, sname, year);
             dbHelper.AddOne(data);
         } else if (v.getId() == R.id.buttonGet) {
-            LinkedList<Data> list = dbHelper.GetAll();
-
-            String text = "";
+            list = dbHelper.GetAll();
             for (Data d:list) text = text +(d.name)+ "  " +(d.surname)+ " "+ (d.year)+"\n";
             tvOut.setText(text.toString());
+        } else if (v.getId() == R.id.buttonDelOne) {
+            dbHelper.DeleteOne(eNew.getText().toString());
+        } else if (v.getId() == R.id.buttonUpdate) {
+            dbHelper.UpdateOne(eNew.getText().toString());
+        } else if (v.getId() == R.id.buttonSearch) {
+            dbHelper.Search(eNew.getText().toString());
+            list = dbHelper.Search(eNew.getText().toString());
+            for (Data d:list) text = text +(d.name)+ "  " +(d.surname)+ " "+ (d.year)+"\n";
+            tvOut.setText(text.toString());
+        } else if (v.getId() == R.id.button1000) {
+            tvOut.setText("" + dbHelper.Insert1000());
         }
-
     }
 }
